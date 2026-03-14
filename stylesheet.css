@@ -25,6 +25,12 @@ padding:30px;
 #description{
     font-size: 25px;
 }
+#map {
+    height:400px;
+width:100%;
+margin-bottom:40px;
+border-radius:10px;
+    }
 
 /* HEADER */
 

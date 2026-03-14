@@ -11,10 +11,13 @@
 <title>Disaster Response Dashboard</title>
 
 <!-- Linking the external CSS file -->
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="stylesheet.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 
 <body>
@@ -23,7 +26,6 @@
 <div class="container">
 
 <!-- ================= HEADER SECTION ================= -->
-
 <header class="header">
 <!-- Main title of dashboard -->
 <h1 id="titlesize">Disaster Response Dashboard</h1>
@@ -33,7 +35,7 @@
 </p>
 </header>
 
-
+<div id = "map"></div>
 <!-- ================= HIGH PRIORITY SECTION ================= -->
 
 <section class="priority high">
@@ -786,13 +788,21 @@
 
 </details>
 
-
 </div>
 
 </div>
 </section>
 
 </div>
+<script>
+    var map = L.map('map').setView([0,0],1);
+
+    L.tileLayer('https://api.maptiler.com/maps/base-v4/{z}/{x}/{y}.png?key=4mYYMV1vuZjrQdi0uSEu', {
+        attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
+    }).addTo(map);
+
+    
+</script>
 
 </body>
 </html>
