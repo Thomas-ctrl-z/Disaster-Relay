@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Character encoding -->
+<meta charset="UTF-8">
+
+<!-- Makes the website responsive on phones -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Page title in browser tab -->
+<title>Disaster Response Dashboard</title>
+
+<!-- Linking the external CSS file -->
+<link rel="stylesheet" href="styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- Main container that keeps everything centered -->
+<div class="container">
+
+<!-- ================= HEADER SECTION ================= -->
+
+<header class="header">
+<!-- Main title of dashboard -->
+<h1 id="titlesize">Disaster Response Dashboard</h1>
+
+<!-- Short description -->
+<p id="description"><strong>Disaster Relay</strong> is a live public dashboard that shows the current situation across communities following <strong>Hurricane Melissa</strong>. Each update on the dashboard comes from real calls and reports that have been converted into structured data. Communities are grouped by <b>priority level</b> so viewers can quickly see where help is most urgently needed. By clicking on a community, users can view reported needs such as <b>food, water, or shelter</b>, as well as whether <b>injuries have been reported</b>. This allows the public and responders to clearly understand which areas are most affected and what support those communities require.
+</p>
+</header>
+
+
+<!-- ================= HIGH PRIORITY SECTION ================= -->
+
+<section class="priority high">
+
+<!-- Section title -->
+    <h2>High Priority</h2>
+
+<!-- Grid that holds all parish cards -->
+    <div class="parish-grid">
+    
+
+<!-- Parish Card -->
+<div class="parish-card">
+
+<!-- Parish name -->
+<h3>Trelawny</h3>
+
+<!-- Community dropdown -->
+<details class="community">
+
+<!-- Clickable community name -->
+<summary>Trench Town</summary>
+
+<!-- Information that appears when clicked -->
+<div class="community-info">
+
+<!-- Needs for the community -->
+<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
+
+<!-- Injury status -->
+<p class="injured">⚠ Injuries Reported</p>
+
+</div>
+
+</details>
+
+
+<!-- Second community in the same parish -->
+<details class="community">
+
+<summary>Denham Town</summary>
+
+<div class="community-info">
+
+<p class="needs">💧 Water | 🏠 Shelter</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+
+<!-- Parish Card -->
+<div class="parish-card">
+
+<!-- Parish name -->
+<h3>Kingston</h3>
+
+<!-- Community dropdown -->
+<details class="community">
+
+<!-- Clickable community name -->
+<summary>Trench Town</summary>
+
+<!-- Information that appears when clicked -->
+<div class="community-info">
+
+<!-- Needs for the community -->
+<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
+
+<!-- Injury status -->
+<p class="injured">⚠ Injuries Reported</p>
+
+</div>
+
+</details>
+
+
+<!-- Second community in the same parish -->
+<details class="community">
+
+<summary>Denham Town</summary>
+
+<div class="community-info">
+
+<p class="needs">💧 Water | 🏠 Shelter</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+<!-- Parish Card -->
+<div class="parish-card">
+
+<!-- Parish name -->
+<h3>St.Andrew</h3>
+
+<!-- Community dropdown -->
+<details class="community">
+
+<!-- Clickable community name -->
+<summary>Trench Town</summary>
+
+<!-- Information that appears when clicked -->
+<div class="community-info">
+
+<!-- Needs for the community -->
+<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
+
+<!-- Injury status -->
+<p class="injured">⚠ Injuries Reported</p>
+
+</div>
+
+</details>
+
+
+<!-- Second community in the same parish -->
+<details class="community">
+
+<summary>Denham Town</summary>
+
+<div class="community-info">
+
+<p class="needs">💧 Water | 🏠 Shelter</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+<!-- Parish Card -->
+<div class="parish-card">
+
+<!-- Parish name -->
+<h3>St.James</h3>
+
+<!-- Community dropdown -->
+<details class="community">
+
+<!-- Clickable community name -->
+<summary>Trench Town</summary>
+
+<!-- Information that appears when clicked -->
+<div class="community-info">
+
+<!-- Needs for the community -->
+<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
+
+<!-- Injury status -->
+<p class="injured">⚠ Injuries Reported</p>
+
+</div>
+
+</details>
+
+
+<!-- Second community in the same parish -->
+<details class="community">
+
+<summary>Denham Town</summary>
+
+<div class="community-info">
+
+<p class="needs">💧 Water | 🏠 Shelter</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+<!-- Another parish card -->
+<div class="parish-card">
+
+<h3>Westmoreland</h3>
+
+<details class="community">
+
+<summary>Trench Town</summary>
+
+<div class="community-info">
+
+<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
+
+<p class="injured">⚠ Injuries Reported</p>
+
+</div>
+
+</details>
+
+
+<details class="community">
+
+<summary>Denham Town</summary>
+
+<div class="community-info">
+
+<p class="needs">💧 Water | 🏠 Shelter</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+<!-- Another parish card -->
+<div class="parish-card">
+
+<h3>St.Mary</h3>
+
+<details class="community">
+
+<summary>Trench Town</summary>
+
+<div class="community-info">
+
+<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
+
+<p class="injured">⚠ Injuries Reported</p>
+
+</div>
+
+</details>
+
+
+<details class="community">
+
+<summary>Denham Town</summary>
+
+<div class="community-info">
+
+<p class="needs">💧 Water | 🏠 Shelter</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+
+
+<!-- Another example parish card -->
+<div class="parish-card">
+
+<h3>Hanover</h3>
+
+<details class="community">
+
+<summary>Trench Town</summary>
+
+<div class="community-info">
+
+<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
+
+<p class="injured">⚠ Injuries Reported</p>
+
+</div>
+
+</details>
+
+
+<details class="community">
+
+<summary>Denham Town</summary>
+
+<div class="community-info">
+
+<p class="needs">💧 Water | 🏠 Shelter</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+<div class="parish-card">
+
+<h3>Clarendon</h3>
+
+<details class="community">
+
+<summary>Trench Town</summary>
+
+<div class="community-info">
+
+<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
+
+<p class="injured">⚠ Injuries Reported</p>
+
+</div>
+
+</details>
+
+
+<details class="community">
+
+<summary>Denham Town</summary>
+
+<div class="community-info">
+
+<p class="needs">💧 Water | 🏠 Shelter</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+<div class="parish-card">
+
+<h3>Portland</h3>
+
+<details class="community">
+
+<summary>Trench Town</summary>
+
+<div class="community-info">
+
+<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
+
+<p class="injured">⚠ Injuries Reported</p>
+
+</div>
+
+</details>
+
+
+<details class="community">
+
+<summary>Denham Town</summary>
+
+<div class="community-info">
+
+<p class="needs">💧 Water | 🏠 Shelter</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+<div class="parish-card">
+
+<h3>Manchester</h3>
+
+<details class="community">
+
+<summary>Trench Town</summary>
+
+<div class="community-info">
+
+<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
+
+<p class="injured">⚠ Injuries Reported</p>
+
+</div>
+
+</details>
+
+
+<details class="community">
+
+<summary>Denham Town</summary>
+
+<div class="community-info">
+
+<p class="needs">💧 Water | 🏠 Shelter</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+<div class="parish-card">
+
+<h3>St.Ann</h3>
+
+<details class="community">
+
+<summary>Trench Town</summary>
+
+<div class="community-info">
+
+<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
+
+<p class="injured">⚠ Injuries Reported</p>
+
+</div>
+
+</details>
+
+
+<details class="community">
+
+<summary>Denham Town</summary>
+
+<div class="community-info">
+
+<p class="needs">💧 Water | 🏠 Shelter</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+<div class="parish-card">
+
+<h3>St.Catherine</h3>
+
+<details class="community">
+
+<summary>Trench Town</summary>
+
+<div class="community-info">
+
+<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
+
+<p class="injured">⚠ Injuries Reported</p>
+
+</div>
+
+</details>
+
+
+<details class="community">
+
+<summary>Denham Town</summary>
+
+<div class="community-info">
+
+<p class="needs">💧 Water | 🏠 Shelter</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+<div class="parish-card">
+
+<h3>St.Elizabeth</h3>
+
+<details class="community">
+
+<summary>Trench Town</summary>
+
+<div class="community-info">
+
+<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
+
+<p class="injured">⚠ Injuries Reported</p>
+
+</div>
+
+</details>
+
+
+<details class="community">
+
+<summary>Denham Town</summary>
+
+<div class="community-info">
+
+<p class="needs">💧 Water | 🏠 Shelter</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+
+
+<!-- St Andrew parish -->
+<div class="parish-card">
+
+<h3>St Andrew</h3>
+
+<details class="community">
+
+<summary>Half Way Tree</summary>
+
+<div class="community-info">
+
+<p class="needs">💧 Water | 🏠 Shelter</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+<details class="community">
+
+<summary>Papine</summary>
+
+<div class="community-info">
+
+<p class="needs">🍞 Food | 💧 Water</p>
+
+<p class="injured">⚠ Injuries Reported</p>
+
+</div>
+
+</details>
+
+</div>
+
+</div>
+</section>
+
+
+
+<!-- ================= MEDIUM PRIORITY SECTION ================= -->
+
+<section class="priority medium">
+
+<h2>Medium Priority</h2>
+
+<div class="parish-grid">
+
+<!-- Clarendon parish -->
+<div class="parish-card">
+
+<h3>Clarendon</h3>
+
+<details class="community">
+
+<summary>May Pen</summary>
+
+<div class="community-info">
+
+<p class="needs">🍞 Food</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+<!-- Clarendon parish -->
+<div class="parish-card">
+
+<h3>Clarendon</h3>
+
+<details class="community">
+
+<summary>May Pen</summary>
+
+<div class="community-info">
+
+<p class="needs">🍞 Food</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div><!-- Clarendon parish -->
+<div class="parish-card">
+
+<h3>Clarendon</h3>
+
+<details class="community">
+
+<summary>May Pen</summary>
+
+<div class="community-info">
+
+<p class="needs">🍞 Food</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+
+
+<!-- Manchester parish -->
+<div class="parish-card">
+
+<h3>Manchester</h3>
+
+<details class="community">
+
+<summary>Mandeville</summary>
+
+<div class="community-info">
+
+<p class="needs">🏠 Shelter</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+
+</div>
+</section>
+
+
+
+<!-- ================= LOW PRIORITY SECTION ================= -->
+
+<section class="priority low">
+
+<h2>Low Priority</h2>
+
+<div class="parish-grid">
+
+<!-- Portland parish -->
+<div class="parish-card">
+
+<h3>Portland</h3>
+
+<details class="community">
+
+<summary>Port Antonio</summary>
+
+<div class="community-info">
+
+<p class="needs">💧 Water</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+<div class="parish-card">
+
+<h3>Portland</h3>
+
+<details class="community">
+
+<summary>Port Antonio</summary>
+
+<div class="community-info">
+
+<p class="needs">💧 Water</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+<div class="parish-card">
+
+<h3>Portland</h3>
+
+<details class="community">
+
+<summary>Port Antonio</summary>
+
+<div class="community-info">
+
+<p class="needs">💧 Water</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+<div class="parish-card">
+
+<h3>Portland</h3>
+
+<details class="community">
+
+<summary>Port Antonio</summary>
+
+<div class="community-info">
+
+<p class="needs">💧 Water</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+<div class="parish-card">
+
+<h3>Portland</h3>
+
+<details class="community">
+
+<summary>Port Antonio</summary>
+
+<div class="community-info">
+
+<p class="needs">💧 Water</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+</div>
+
+<!-- St Mary parish -->
+<div class="parish-card">
+
+<h3>St Mary</h3>
+
+<details class="community">
+
+<summary>Port Maria</summary>
+
+<div class="community-info">
+
+<p class="needs">🍞 Food</p>
+
+<p class="none">✔ No Injuries</p>
+
+</div>
+
+</details>
+
+
+</div>
+
+</div>
+</section>
+
+</div>
+
+</body>
+</html>
