@@ -5,7 +5,7 @@ Disaster Relay is an emergency intelligence platform that transforms scattered, 
 
 
 ## Problem 
-During Hurricane Beryl in Jamaica, ODPEM faced information overload and critical gaps. Calls from affected communities were:
+During Hurricane Melissa in Jamaica, ODPEM faced information overload and critical gaps. Calls from affected communities were:
 
 - Random and unstructured
 
