@@ -7,10 +7,10 @@ box-sizing:border-box;
 body{
   font-family: "Open Sans", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 400;
+  font-weight: <weight>;
   font-style: normal;
-  font-variation-settings: "wdth" 100;
-  background:#f4f6f8;
+  font-variation-settings: "width" 100;
+background: #f4f6f8;
 }
 
 .container{
@@ -73,8 +73,8 @@ border-left:8px solid orange;
 }
 
 .low{
-background:#fff9db;
-border-left:8px solid #f4d35e;
+background:#3387f5;
+border-left:8px solid #1f49f0;
 }
 
 /* GRID */
