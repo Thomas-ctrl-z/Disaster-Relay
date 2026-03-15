@@ -33,9 +33,10 @@
 <!-- Short description -->
 <p id="description"><strong>Disaster Relay</strong> is a live public dashboard that shows the current situation across communities following <strong>Hurricane Melissa</strong>. Each update on the dashboard comes from real calls and reports that have been converted into structured data. Communities are grouped by <b>priority level</b> so viewers can quickly see where help is most urgently needed. By clicking on a community, users can view reported needs such as <b>food, water, or shelter</b>, as well as whether <b>injuries have been reported</b>. This allows the public and responders to clearly understand which areas are most affected and what support those communities require.
 </p>
+<div id = "map"></div>
 </header>
 
-<div id = "map"></div>
+
 <!-- ================= HIGH PRIORITY SECTION ================= -->
 
 <section class="priority high">
@@ -568,7 +569,6 @@
 </section>
 
 
-
 <!-- ================= MEDIUM PRIORITY SECTION ================= -->
 
 <section class="priority medium">
@@ -795,12 +795,115 @@
 
 </div>
 <script>
-    var map = L.map('map').setView([0,0],1);
+ 
+// Create the map centered on Jamaica
+var jamaicaBounds = [
+    [17.6, -78.6], // Southwest corner
+    [18.6, -75.9]  // Northeast corner
+];
 
-    L.tileLayer('https://api.maptiler.com/maps/base-v4/{z}/{x}/{y}.png?key=4mYYMV1vuZjrQdi0uSEu', {
-        attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
-    }).addTo(map);
+// Create the map centered on Jamaica
+var map = L.map('map', {
+    center: [18.1096, -77.2975],
+    zoom: 10,
+    minZoom: 9.5,            // cannot zoom out beyond Jamaica
+    maxZoom: 18,           // users can still zoom in
+    maxBounds: jamaicaBounds,
+    maxBoundsViscosity: 1.0,
+      /* Prevent grey tiles outside map */
+    zoomControl: true
+});
 
+// Map tiles
+L.tileLayer('https://api.maptiler.com/maps/base-v4/{z}/{x}/{y}.png?key=4mYYMV1vuZjrQdi0uSEu', {
+    attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+// Custom icon for each priority
+var redIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+    iconSize: [25,41],
+    iconAnchor: [12,41],
+    popupAnchor: [1,-34],
+    shadowSize: [41,41]
+});
+
+var orangeIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+    iconSize: [25,41],
+    iconAnchor: [12,41],
+    popupAnchor: [1,-34],
+    shadowSize: [41,41]
+});
+var blueIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+    iconSize: [25,41],
+    iconAnchor: [12,41],
+    popupAnchor: [1,-34],
+    shadowSize: [41,41]
+});
+
+
+
+
+// High Priority Parish Locations
+var highPriorityParishes = [
+
+    {name:"St. James", coords:[18.4762,-77.8939]},
+    {name:"Hanover", coords:[18.4098,-78.1336]},
+    {name:"Westmoreland", coords:[18.2730,-78.1564]},
+    {name:"Trelawny", coords:[18.3526,-77.6078]},
+    {name:"St. Ann", coords:[18.4010,-77.1035]},
+    {name:"St. Mary", coords:[18.3093,-76.8895]},
+    {name:"Portland", coords:[18.1765,-76.4500]},
+    {name:"Kingston", coords:[17.9712,-76.7936]},
+    {name:"St. Andrew", coords:[18.0126,-76.7567]},
+    {name:"St. Catherine", coords:[17.9981,-77.0040]},
+    {name:"Clarendon", coords:[17.9557,-77.2405]},
+    {name:"Manchester", coords:[18.0515,-77.5071]},
+    {name:"St. Elizabeth", coords:[18.0000,-77.7500]},
+    {name:"St. Thomas", coords:[17.9833,-76.4333]}
+
+];
+// Medium Priority Parish Locations
+var mediumPriorityParishes = [
+
+    {name:"Clarendon", coords:[17.9557,-77.2405]},
+    {name:"Manchester", coords:[18.0515,-77.5071]}
+
+];
+// Low Priority Parish Locations
+var lowPriorityParishes = [
+    {name:"Portland", coords:[18.1765,-76.4500]},  // Port Antonio
+    {name:"St. Mary", coords:[18.3093,-76.8895]}   // Port Maria
+];
+
+
+// Loop through parishes and add markers
+highPriorityParishes.forEach(function(parish){
+
+    L.marker(parish.coords,{icon:redIcon})
+    .addTo(map)
+    .bindPopup("<b>"+parish.name+"</b><br>High Priority Area");
+
+});
+// Loop through medium priority parishes
+mediumPriorityParishes.forEach(function(parish){
+
+    L.marker(parish.coords,{icon:orangeIcon})
+    .addTo(map)
+    .bindPopup("<b>"+parish.name+"</b><br>Medium Priority Area");
+
+});
+// Loop through low priority parishes
+lowPriorityParishes.forEach(function(parish){
+    L.marker(parish.coords, {icon: blueIcon})
+    .addTo(map)
+    .bindPopup("<b>"+parish.name+"</b><br>Low Priority Area");
+});
     
 </script>
 
