@@ -1,6 +1,7 @@
 <h1 align="center"> Disaster Relay</h1>
-<img src="Images/poster.png" align="center" width="600">
-
+<div align="center">
+<img src="Images/poster.png" width="500" height="auto">
+</div>
 
 ## Overview
 Disaster Relay is an emergency intelligence platform that transforms scattered, unstructured calls into actionable reports. By capturing key details such as location, needs, and connectivity status, it enables responders to pinpoint isolated communities and prioritize aid in real time, even when network coverage is partial.
