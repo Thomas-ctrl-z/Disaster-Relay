@@ -1,10 +1,10 @@
-<h1 style="align: center;"> Disaster Relay</h1>
+<h1> Disaster Relay</h1>
 
----
+
 ## Overview
 Disaster Relay is an emergency intelligence platform that transforms scattered, unstructured calls into actionable reports. By capturing key details such as location, needs, and connectivity status, it enables responders to pinpoint isolated communities and prioritize aid in real time, even when network coverage is partial.
 
----
+
 ## Problem 
 During Hurricane Melissa in Jamaica, ODPEM faced information overload and critical gaps. Calls from affected communities were:
 
@@ -16,7 +16,7 @@ During Hurricane Melissa in Jamaica, ODPEM faced information overload and critic
 
 This made it difficult to identify which communities were in urgent need, even when some calls did get through.
 
----
+
 ## Solution
 Disaster Relay turns every incoming call into a structured data point. Key features:
 
@@ -30,18 +30,18 @@ Ensures anyone who can reach out becomes a lifeline for their entire community
 
 In short: we can’t fix cell towers, but we make every successful call count.
 
----
 ## Features
 - **Community Feed / Updates** – feed showing ongoing reports from affected areas
 - **Priority Alert System** – automatically flags critical reports for urgent attention
 - Real-time status updates
 - Mobile-friendly design
 
----
+
 ## Demo
 
 [DisasterRelay-Website](thomas-ctrl-z.github.io/Disaster-Relay/)
 
-![Website Header Screenshot](Images/high%20priority.png)
-
-![Priority List Screenshot](Images/high%20priority.png)
+<P>
+    <img src="Images/demo pg1.png" width="500">
+    <img src="Images/high priority.png" width="500">
+</P>
