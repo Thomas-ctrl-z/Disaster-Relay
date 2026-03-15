@@ -1,16 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Character encoding -->
 <meta charset="UTF-8">
-
-<!-- Makes the website responsive on phones -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- Page title in browser tab -->
 <title>Disaster Response Dashboard</title>
 
-<!-- Linking the external CSS file -->
 <link rel="stylesheet" href="stylesheet.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,790 +12,38 @@
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-</head>
 
+</head>
+<body>
 <body>
 
-<!-- Main container that keeps everything centered -->
 <div class="container">
-
-<!-- ================= HEADER SECTION ================= -->
-<header class="header">
-<!-- Main title of dashboard -->
-<h1 id="titlesize">Disaster Response Dashboard</h1>
-
-<!-- Short description -->
-<p id="description"><strong>Disaster Relay</strong> is a live public dashboard that shows the current situation across communities following <strong>Hurricane Melissa</strong>. Each update on the dashboard comes from real calls and reports that have been converted into structured data. Communities are grouped by <b>priority level</b> so viewers can quickly see where help is most urgently needed. By clicking on a community, users can view reported needs such as <b>food, water, or shelter</b>, as well as whether <b>injuries have been reported</b>. This allows the public and responders to clearly understand which areas are most affected and what support those communities require.
-</p>
-<div id = "map"></div>
-</header>
-
-
-<!-- ================= HIGH PRIORITY SECTION ================= -->
-
-<section class="priority high">
-
-<!-- Section title -->
-    <h2>High Priority</h2>
-
-<!-- Grid that holds all parish cards -->
-    <div class="parish-grid">
-    
-
-<!-- Parish Card -->
-<div class="parish-card">
-
-<!-- Parish name -->
-<h3>Trelawny</h3>
-
-<!-- Community dropdown -->
-<details class="community">
-
-<!-- Clickable community name -->
-<summary>Trench Town</summary>
-
-<!-- Information that appears when clicked -->
-<div class="community-info">
-
-<!-- Needs for the community -->
-<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
-
-<!-- Injury status -->
-<p class="injured">⚠ Injuries Reported</p>
-
-</div>
-
-</details>
-
-
-<!-- Second community in the same parish -->
-<details class="community">
-
-<summary>Denham Town</summary>
-
-<div class="community-info">
-
-<p class="needs">💧 Water | 🏠 Shelter</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-
-<!-- Parish Card -->
-<div class="parish-card">
-
-<!-- Parish name -->
-<h3>Kingston</h3>
-
-<!-- Community dropdown -->
-<details class="community">
-
-<!-- Clickable community name -->
-<summary>Trench Town</summary>
-
-<!-- Information that appears when clicked -->
-<div class="community-info">
-
-<!-- Needs for the community -->
-<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
-
-<!-- Injury status -->
-<p class="injured">⚠ Injuries Reported</p>
-
-</div>
-
-</details>
-
-
-<!-- Second community in the same parish -->
-<details class="community">
-
-<summary>Denham Town</summary>
-
-<div class="community-info">
-
-<p class="needs">💧 Water | 🏠 Shelter</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-<!-- Parish Card -->
-<div class="parish-card">
-
-<!-- Parish name -->
-<h3>St.Andrew</h3>
-
-<!-- Community dropdown -->
-<details class="community">
-
-<!-- Clickable community name -->
-<summary>Trench Town</summary>
-
-<!-- Information that appears when clicked -->
-<div class="community-info">
-
-<!-- Needs for the community -->
-<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
-
-<!-- Injury status -->
-<p class="injured">⚠ Injuries Reported</p>
-
-</div>
-
-</details>
-
-
-<!-- Second community in the same parish -->
-<details class="community">
-
-<summary>Denham Town</summary>
-
-<div class="community-info">
-
-<p class="needs">💧 Water | 🏠 Shelter</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-<!-- Parish Card -->
-<div class="parish-card">
-
-<!-- Parish name -->
-<h3>St.James</h3>
-
-<!-- Community dropdown -->
-<details class="community">
-
-<!-- Clickable community name -->
-<summary>Trench Town</summary>
-
-<!-- Information that appears when clicked -->
-<div class="community-info">
-
-<!-- Needs for the community -->
-<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
-
-<!-- Injury status -->
-<p class="injured">⚠ Injuries Reported</p>
-
-</div>
-
-</details>
-
-
-<!-- Second community in the same parish -->
-<details class="community">
-
-<summary>Denham Town</summary>
-
-<div class="community-info">
-
-<p class="needs">💧 Water | 🏠 Shelter</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-<!-- Another parish card -->
-<div class="parish-card">
-
-<h3>Westmoreland</h3>
-
-<details class="community">
-
-<summary>Trench Town</summary>
-
-<div class="community-info">
-
-<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
-
-<p class="injured">⚠ Injuries Reported</p>
-
-</div>
-
-</details>
-
-
-<details class="community">
-
-<summary>Denham Town</summary>
-
-<div class="community-info">
-
-<p class="needs">💧 Water | 🏠 Shelter</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-<!-- Another parish card -->
-<div class="parish-card">
-
-<h3>St.Mary</h3>
-
-<details class="community">
-
-<summary>Trench Town</summary>
-
-<div class="community-info">
-
-<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
-
-<p class="injured">⚠ Injuries Reported</p>
-
-</div>
-
-</details>
-
-
-<details class="community">
-
-<summary>Denham Town</summary>
-
-<div class="community-info">
-
-<p class="needs">💧 Water | 🏠 Shelter</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-
-
-<!-- Another example parish card -->
-<div class="parish-card">
-
-<h3>Hanover</h3>
-
-<details class="community">
-
-<summary>Trench Town</summary>
-
-<div class="community-info">
-
-<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
-
-<p class="injured">⚠ Injuries Reported</p>
-
-</div>
-
-</details>
-
-
-<details class="community">
-
-<summary>Denham Town</summary>
-
-<div class="community-info">
-
-<p class="needs">💧 Water | 🏠 Shelter</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-<div class="parish-card">
-
-<h3>Clarendon</h3>
-
-<details class="community">
-
-<summary>Trench Town</summary>
-
-<div class="community-info">
-
-<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
-
-<p class="injured">⚠ Injuries Reported</p>
-
-</div>
-
-</details>
-
-
-<details class="community">
-
-<summary>Denham Town</summary>
-
-<div class="community-info">
-
-<p class="needs">💧 Water | 🏠 Shelter</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-<div class="parish-card">
-
-<h3>Portland</h3>
-
-<details class="community">
-
-<summary>Trench Town</summary>
-
-<div class="community-info">
-
-<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
-
-<p class="injured">⚠ Injuries Reported</p>
-
-</div>
-
-</details>
-
-
-<details class="community">
-
-<summary>Denham Town</summary>
-
-<div class="community-info">
-
-<p class="needs">💧 Water | 🏠 Shelter</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-<div class="parish-card">
-
-<h3>Manchester</h3>
-
-<details class="community">
-
-<summary>Trench Town</summary>
-
-<div class="community-info">
-
-<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
-
-<p class="injured">⚠ Injuries Reported</p>
-
-</div>
-
-</details>
-
-
-<details class="community">
-
-<summary>Denham Town</summary>
-
-<div class="community-info">
-
-<p class="needs">💧 Water | 🏠 Shelter</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-<div class="parish-card">
-
-<h3>St.Ann</h3>
-
-<details class="community">
-
-<summary>Trench Town</summary>
-
-<div class="community-info">
-
-<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
-
-<p class="injured">⚠ Injuries Reported</p>
-
-</div>
-
-</details>
-
-
-<details class="community">
-
-<summary>Denham Town</summary>
-
-<div class="community-info">
-
-<p class="needs">💧 Water | 🏠 Shelter</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-<div class="parish-card">
-
-<h3>St.Catherine</h3>
-
-<details class="community">
-
-<summary>Trench Town</summary>
-
-<div class="community-info">
-
-<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
-
-<p class="injured">⚠ Injuries Reported</p>
-
-</div>
-
-</details>
-
-
-<details class="community">
-
-<summary>Denham Town</summary>
-
-<div class="community-info">
-
-<p class="needs">💧 Water | 🏠 Shelter</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-<div class="parish-card">
-
-<h3>St.Elizabeth</h3>
-
-<details class="community">
-
-<summary>Trench Town</summary>
-
-<div class="community-info">
-
-<p class="needs">🍞 Food | 💧 Water | 🏠 Shelter</p>
-
-<p class="injured">⚠ Injuries Reported</p>
-
-</div>
-
-</details>
-
-
-<details class="community">
-
-<summary>Denham Town</summary>
-
-<div class="community-info">
-
-<p class="needs">💧 Water | 🏠 Shelter</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-
-
-<!-- St Andrew parish -->
-<div class="parish-card">
-
-<h3>St Andrew</h3>
-
-<details class="community">
-
-<summary>Half Way Tree</summary>
-
-<div class="community-info">
-
-<p class="needs">💧 Water | 🏠 Shelter</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-<details class="community">
-
-<summary>Papine</summary>
-
-<div class="community-info">
-
-<p class="needs">🍞 Food | 💧 Water</p>
-
-<p class="injured">⚠ Injuries Reported</p>
-
-</div>
-
-</details>
-
-</div>
-
-</div>
-</section>
-
-
-<!-- ================= MEDIUM PRIORITY SECTION ================= -->
-
-<section class="priority medium">
-
-<h2>Medium Priority</h2>
-
-<div class="parish-grid">
-
-<!-- Clarendon parish -->
-<div class="parish-card">
-
-<h3>Clarendon</h3>
-
-<details class="community">
-
-<summary>May Pen</summary>
-
-<div class="community-info">
-
-<p class="needs">🍞 Food</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-<!-- Clarendon parish -->
-<div class="parish-card">
-
-<h3>Clarendon</h3>
-
-<details class="community">
-
-<summary>May Pen</summary>
-
-<div class="community-info">
-
-<p class="needs">🍞 Food</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div><!-- Clarendon parish -->
-<div class="parish-card">
-
-<h3>Clarendon</h3>
-
-<details class="community">
-
-<summary>May Pen</summary>
-
-<div class="community-info">
-
-<p class="needs">🍞 Food</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-
-
-<!-- Manchester parish -->
-<div class="parish-card">
-
-<h3>Manchester</h3>
-
-<details class="community">
-
-<summary>Mandeville</summary>
-
-<div class="community-info">
-
-<p class="needs">🏠 Shelter</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-
-</div>
-</section>
-
-
-
-<!-- ================= LOW PRIORITY SECTION ================= -->
-
-<section class="priority low">
-
-<h2>Low Priority</h2>
-
-<div class="parish-grid">
-
-<!-- Portland parish -->
-<div class="parish-card">
-
-<h3>Portland</h3>
-
-<details class="community">
-
-<summary>Port Antonio</summary>
-
-<div class="community-info">
-
-<p class="needs">💧 Water</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-<div class="parish-card">
-
-<h3>Portland</h3>
-
-<details class="community">
-
-<summary>Port Antonio</summary>
-
-<div class="community-info">
-
-<p class="needs">💧 Water</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-<div class="parish-card">
-
-<h3>Portland</h3>
-
-<details class="community">
-
-<summary>Port Antonio</summary>
-
-<div class="community-info">
-
-<p class="needs">💧 Water</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-<div class="parish-card">
-
-<h3>Portland</h3>
-
-<details class="community">
-
-<summary>Port Antonio</summary>
-
-<div class="community-info">
-
-<p class="needs">💧 Water</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-<div class="parish-card">
-
-<h3>Portland</h3>
-
-<details class="community">
-
-<summary>Port Antonio</summary>
-
-<div class="community-info">
-
-<p class="needs">💧 Water</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-
-<!-- St Mary parish -->
-<div class="parish-card">
-
-<h3>St Mary</h3>
-
-<details class="community">
-
-<summary>Port Maria</summary>
-
-<div class="community-info">
-
-<p class="needs">🍞 Food</p>
-
-<p class="none">✔ No Injuries</p>
-
-</div>
-
-</details>
-
-</div>
-
-</div>
-</section>
-
+    <header class="header">
+        <h1 id="titlesize">Disaster Response Dashboard</h1>
+        <p id="description">
+            <strong>Disaster Relay</strong> is a live public dashboard that shows the current situation across communities following <strong>Hurricane Melissa</strong>. Each update on the dashboard comes from real calls and reports that have been converted into structured data. Communities are grouped by <b>priority level</b> so viewers can quickly see where help is most urgently needed. By clicking on a community, users can view reported needs such as <b>food, water, or shelter</b>, as well as whether <b>injuries have been reported</b>. This allows the public and responders to clearly understand which areas are most affected and what support those communities require.
+        </p>
+        <p id="update-status">Last updated: <span id="time-display">Fetching...</span></p>
+        <div id="map"></div>
+    </header>
+
+    <section class="priority high">
+        <h2>High Priority</h2>
+        <div class="parish-grid" id="high-grid"></div>
+    </section>
+
+    <section class="priority medium">
+        <h2>Medium Priority</h2>
+        <div class="parish-grid" id="medium-grid"></div>
+    </section>
+
+    <section class="priority low">
+        <h2>Low Priority</h2>
+        <div class="parish-grid" id="low-grid"></div>
+    </section>
 </div>
 <script>
- 
-// Create the map centered on Jamaica
-var jamaicaBounds = [
-    [17.6, -78.6], // Southwest corner
-    [18.6, -75.9]  // Northeast corner
-];
-
+// ====== Map Setup ======
 var jamaicaBounds = [[17.6, -78.6],[18.6, -75.9]];
 var map = L.map('map',{
     center: [18.1096,-77.2975],
@@ -813,44 +55,36 @@ var map = L.map('map',{
     zoomControl:true
 });
 
-// Map tiles
-L.tileLayer('https://api.maptiler.com/maps/base-v4/{z}/{x}/{y}.png?key=4mYYMV1vuZjrQdi0uSEu',{
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
     attribution:'&copy; OpenStreetMap contributors'
 }).addTo(map);
 
-// Data for communities
-var highPriorityCommunities = [
-    {name: "Trench Town", coords:[18.4762,-77.8939], count:3},
-    {name: "Denham Town", coords:[18.4762,-77.8830], count:2},
-    {name: "Half Way Tree", coords:[18.0126,-76.7567], count:1},
-    {name: "Papine", coords:[18.0200,-76.7500], count:1}
-];
+// Use a LayerGroup to manage markers so we can clear them during refresh
+var markerLayer = L.layerGroup().addTo(map);
 
-var mediumPriorityCommunities = [
-    {name:"May Pen", coords:[17.9557,-77.2405], count:2},
-    {name:"Mandeville", coords:[18.0515,-77.5071], count:1}
-];
-
-var lowPriorityCommunities = [
-    {name:"Port Maria", coords:[18.3093,-76.8895], count:3},
-    {name:"Port Antonio", coords:[18.1765,-76.4500], count:2}
-];
-
-// Function to create markers with count displayed
+// ====== Function to create markers with DROP ANIMATION ======
 function addCountMarkerWithIcon(communities, color, priorityText, iconUrl){
     communities.forEach(function(comm){
-        // 1️⃣ DivIcon marker first, slightly offset to the right (behind the pin)
+        // Count bubble marker
         var countMarkerIcon = L.divIcon({
-            html: '<div style="background:'+color+'; color:white; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-weight:bold;">'+comm.count+'</div>',
+            html: '<div style="background:'+color+'; color:white; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-weight:bold; border:2px solid white;" class="pulse-animation">'+comm.count+'</div>',
             className:'',
             iconSize:[30,30],
-            iconAnchor:[9,15], // shift anchor to left (9px ~ 30% of width) so the pin can sit in front
+            iconAnchor:[15,15],
             popupAnchor:[0,-15]
         });
 
-        L.marker([comm.coords[0], comm.coords[1]], {icon: countMarkerIcon}).addTo(map);
+        var countMarker = L.marker([comm.coords[0], comm.coords[1]], {icon: countMarkerIcon}).addTo(markerLayer);
+        
+        countMarker.on('add', function() {
+            setTimeout(() => {
+                if (countMarker.getElement()) {
+                    countMarker.getElement().classList.add('drop-animation');
+                }
+            }, 10);
+        });
 
-        // 2️⃣ Standard Leaflet marker on top
+        // Standard pin marker
         var standardIcon = new L.Icon({
             iconUrl: iconUrl,
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
@@ -860,18 +94,194 @@ function addCountMarkerWithIcon(communities, color, priorityText, iconUrl){
             shadowSize: [41,41]
         });
 
-        L.marker([comm.coords[0], comm.coords[1]], {icon: standardIcon})
-         .addTo(map)
-         .bindPopup("<b>"+comm.name+"</b><br>"+priorityText+" Area"+(comm.count>1?" (x"+comm.count+")":""));
+        var marker = L.marker([comm.coords[0], comm.coords[1]], {icon: standardIcon})
+         .addTo(markerLayer)
+         .bindPopup("<b>"+comm.name+"</b><br>"+priorityText+(comm.count>1?" (x"+comm.count+")":""));
+        
+        marker.on('add', function() {
+            setTimeout(() => {
+                if (marker.getElement()) {
+                    marker.getElement().classList.add('drop-animation');
+                }
+            }, 10);
+        });
     });
 }
 
-// Usage
-addCountMarkerWithIcon(highPriorityCommunities, 'red', 'High Priority', 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png');
-addCountMarkerWithIcon(mediumPriorityCommunities, 'orange', 'Medium Priority', 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png');
-addCountMarkerWithIcon(lowPriorityCommunities, 'blue', 'Low Priority', 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png');
+// ====== Create parish cards ======
+function createParishCard(parishName, communities) {
+    const card = document.createElement('div');
+    card.className = 'parish-card';
     
-</script>
+    const h3 = document.createElement('h3');
+    h3.textContent = parishName;
+    card.appendChild(h3);
 
+    communities.sort((a,b)=>a.community.localeCompare(b.community));
+
+    communities.forEach(comm=>{
+        const details = document.createElement('details');
+        details.className = 'community';
+
+        const summary = document.createElement('summary');
+        summary.textContent = comm.count>1 ? `${comm.community} x${comm.count}` : comm.community;
+        details.appendChild(summary);
+
+        const info = document.createElement('div');
+        info.className = 'community-info';
+
+        const needsP = document.createElement('p');
+        needsP.className = 'needs';
+
+        const needIcons = [];
+        comm.needs.forEach(need=>{
+            const n = need.toLowerCase();
+            if(n.includes('food')) needIcons.push('🍞 Food');
+            if(n.includes('water')) needIcons.push('💧 Water');
+            if(n.includes('shelter')) needIcons.push('🏠 Shelter');
+            if(n.includes('medical')) needIcons.push('🏥 Medical');
+        });
+        needsP.innerHTML = needIcons.join(' | ') || 'No specific needs';
+        info.appendChild(needsP);
+
+        const injuryP = document.createElement('p');
+        const hasMedical = comm.needs.some(n=>n.toLowerCase().includes('medical'));
+        injuryP.className = hasMedical ? 'injured' : 'none';
+        injuryP.innerHTML = hasMedical ? '⚠ Injuries Reported' : '✔ No Injuries';
+        info.appendChild(injuryP);
+
+        details.appendChild(info);
+        card.appendChild(details);
+    });
+
+    return card;
+}
+
+// ====== Load and Process CSV Data ======
+const csvUrl = 'https://docs.google.com/spreadsheets/d/13WUAN1zNK3fH_wX32QLb44EnQNiA5Z0_jwTtYA_2XHA/export?format=csv&gid=0';
+
+function loadDashboardData() {
+    // Cache busting timestamp
+    const fetchUrl = `${csvUrl}&t=${new Date().getTime()}`;
+
+    fetch(fetchUrl)
+    .then(response => response.text())
+    .then(csvText => {
+        const lines = csvText.split(/\r?\n/);
+        const headers = lines[0].split(',').map(h => h.trim().replace(/^\uFEFF/, ''));
+        const data = [];
+        
+        for(let i = 1; i < lines.length; i++) {
+            if(!lines[i].trim()) continue;
+            const values = lines[i].split(',').map(v => v.trim());
+            const row = {};
+            headers.forEach((h, idx) => { row[h] = values[idx] || ''; });
+            data.push(row);
+        }
+        
+        const communities = {};
+
+        data.forEach(row => {
+            const parish = row.Parish?.trim();
+            const community = row.Community?.trim();
+            const rawPriority = (row.Severity || row.Priority || "").toLowerCase().trim();
+            const rawNeeds = row.Needs?.trim() || '';
+            
+            if(!parish || !community) return;
+
+            let priority = 'low';
+            if (rawPriority.includes('urgent') || rawPriority.includes('critical') || rawPriority.includes('high')) {
+                priority = 'high';
+            } else if (rawPriority.includes('moderate') || rawPriority.includes('medium') || rawPriority.includes('med')) {
+                priority = 'medium';
+            }
+
+            let needs = [];
+            if (rawNeeds) {
+                needs = rawNeeds.replace(/[\[\]"]/g, '').split(',').map(n => n.trim()).filter(n => n.length > 0);
+            }
+
+            const key = `${parish}|${community}`;
+            if(!communities[key]) {
+                communities[key] = { parish, community, priority, needs, count: 1 };
+            } else {
+                const prioRank = {high:3, medium:2, low:1};
+                if(prioRank[priority] > prioRank[communities[key].priority]) {
+                    communities[key].priority = priority;
+                }
+                needs.forEach(n => {
+                    if(!communities[key].needs.includes(n)) communities[key].needs.push(n);
+                });
+                communities[key].count++;
+            }
+        });
+
+        const commArray = Object.values(communities);
+        const grouped = { high: {}, medium: {}, low: {} };
+
+        commArray.forEach(item => {
+            if (!grouped[item.priority][item.parish]) grouped[item.priority][item.parish] = [];
+            grouped[item.priority][item.parish].push(item);
+        });
+
+        // Clear existing markers before redraw
+        markerLayer.clearLayers();
+
+        // Update UI Grids
+        ['high', 'medium', 'low'].forEach(prio => {
+            const grid = document.querySelector(`.priority.${prio} .parish-grid`);
+            if (grid) {
+                grid.innerHTML = '';
+                const parishes = Object.keys(grouped[prio]).sort();
+                parishes.forEach(parish => {
+                    grid.appendChild(createParishCard(parish, grouped[prio][parish]));
+                });
+            }
+        });
+
+        // ====== Map markers ======
+        const colors = {high:'red', medium:'orange', low:'blue'};
+        const icons = {
+            high:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+            medium:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png',
+            low:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png'
+        };
+
+        const coordsMap = {
+            'Angels': [18.0167, -76.9167],
+            'August Town': [18.0, -76.75],
+            'Ludo Town': [18.3093, -76.8895],
+            'Breadbasket': [17.9557, -77.2405],
+            'Montego Bay': [18.4762, -77.8939],
+            'La Bubu Town': [18.3093, -76.8895],
+            'Johnstone': [18.2, -77.1],
+            'Oriott': [18.25, -77.35],
+            'Yekkiw': [18.32, -77.42]
+        };
+
+        const baseCoords = [18.1096, -77.2975];
+        commArray.forEach((c, i) => {
+            const coords = coordsMap[c.community] || [baseCoords[0] + 0.01*i, baseCoords[1] + 0.01*i];
+            addCountMarkerWithIcon([{
+                name: c.community,
+                coords: coords,
+                count: c.count
+            }], colors[c.priority], c.priority.charAt(0).toUpperCase() + c.priority.slice(1) + ' Priority', icons[c.priority]);
+        });
+
+        document.getElementById('time-display').innerText = new Date().toLocaleTimeString();
+    })
+    .catch(err => {
+        console.error('Error loading CSV:', err);
+        document.getElementById('time-display').innerText = 'Error fetching data';
+    });
+}
+
+// Initial Load
+loadDashboardData();
+
+// Refresh every 10 seconds
+setInterval(loadDashboardData, 10000);
+</script>
 </body>
 </html>
