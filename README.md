@@ -50,6 +50,6 @@ When a person calls the emergency number, an AI responder answers and asks struc
 <a href="thomas-ctrl-z.github.io/Disaster-Relay/" align="center">Disaster Relay Website</a>
 
 <P>
-    <img src="Assets/high priority.png" width="50%" height="auto">
-    <img src="Assets/demo pg1.png" width="50%" height="auto">
+    <img src="Assets/high priority.png" width="45%" height="auto">
+    <img src="Assets/demo pg1.png" width="45%" height="auto">
 </p>
