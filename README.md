@@ -1,6 +1,6 @@
 <h1 align="center"> Disaster Relay</h1>
 <div align="center">
-<img src="Images/poster.png" width="300" height="300">
+<img src="Images/poster.png" width="400" height="auto">
 </div>
 
 ## Overview
