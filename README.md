@@ -45,6 +45,11 @@ When a person calls the emergency number, an AI responder answers and asks struc
 - Mobile-friendly design
 
 ---
+## Documentation 
+
+<a href="https://docs.google.com/document/d/1tP8Gct8-BReYmATqnHe99UGZC_uZw5hRxxJ7zquz6ew/edit?usp=sharing"> Goolge Docs Documentation</a>
+
+---
 ## Demo
 
 <a href="thomas-ctrl-z.github.io/Disaster-Relay/" align="center">Disaster Relay Website</a>
