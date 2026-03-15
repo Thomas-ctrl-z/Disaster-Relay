@@ -802,108 +802,74 @@ var jamaicaBounds = [
     [18.6, -75.9]  // Northeast corner
 ];
 
-// Create the map centered on Jamaica
-var map = L.map('map', {
-    center: [18.1096, -77.2975],
+var jamaicaBounds = [[17.6, -78.6],[18.6, -75.9]];
+var map = L.map('map',{
+    center: [18.1096,-77.2975],
     zoom: 10,
-    minZoom: 9.5,            // cannot zoom out beyond Jamaica
-    maxZoom: 18,           // users can still zoom in
+    minZoom: 9.5,
+    maxZoom: 18,
     maxBounds: jamaicaBounds,
     maxBoundsViscosity: 1.0,
-      /* Prevent grey tiles outside map */
-    zoomControl: true
+    zoomControl:true
 });
 
 // Map tiles
-L.tileLayer('https://api.maptiler.com/maps/base-v4/{z}/{x}/{y}.png?key=4mYYMV1vuZjrQdi0uSEu', {
-    attribution: '&copy; OpenStreetMap contributors'
+L.tileLayer('https://api.maptiler.com/maps/base-v4/{z}/{x}/{y}.png?key=4mYYMV1vuZjrQdi0uSEu',{
+    attribution:'&copy; OpenStreetMap contributors'
 }).addTo(map);
 
-// Custom icon for each priority
-var redIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
-    iconSize: [25,41],
-    iconAnchor: [12,41],
-    popupAnchor: [1,-34],
-    shadowSize: [41,41]
-});
-
-var orangeIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
-    iconSize: [25,41],
-    iconAnchor: [12,41],
-    popupAnchor: [1,-34],
-    shadowSize: [41,41]
-});
-var blueIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
-    iconSize: [25,41],
-    iconAnchor: [12,41],
-    popupAnchor: [1,-34],
-    shadowSize: [41,41]
-});
-
-
-
-
-// High Priority Parish Locations
-var highPriorityParishes = [
-
-    {name:"St. James", coords:[18.4762,-77.8939]},
-    {name:"Hanover", coords:[18.4098,-78.1336]},
-    {name:"Westmoreland", coords:[18.2730,-78.1564]},
-    {name:"Trelawny", coords:[18.3526,-77.6078]},
-    {name:"St. Ann", coords:[18.4010,-77.1035]},
-    {name:"St. Mary", coords:[18.3093,-76.8895]},
-    {name:"Portland", coords:[18.1765,-76.4500]},
-    {name:"Kingston", coords:[17.9712,-76.7936]},
-    {name:"St. Andrew", coords:[18.0126,-76.7567]},
-    {name:"St. Catherine", coords:[17.9981,-77.0040]},
-    {name:"Clarendon", coords:[17.9557,-77.2405]},
-    {name:"Manchester", coords:[18.0515,-77.5071]},
-    {name:"St. Elizabeth", coords:[18.0000,-77.7500]},
-    {name:"St. Thomas", coords:[17.9833,-76.4333]}
-
-];
-// Medium Priority Parish Locations
-var mediumPriorityParishes = [
-
-    {name:"Clarendon", coords:[17.9557,-77.2405]},
-    {name:"Manchester", coords:[18.0515,-77.5071]}
-
-];
-// Low Priority Parish Locations
-var lowPriorityParishes = [
-    {name:"Portland", coords:[18.1765,-76.4500]},  // Port Antonio
-    {name:"St. Mary", coords:[18.3093,-76.8895]}   // Port Maria
+// Data for communities
+var highPriorityCommunities = [
+    {name: "Trench Town", coords:[18.4762,-77.8939], count:3},
+    {name: "Denham Town", coords:[18.4762,-77.8830], count:2},
+    {name: "Half Way Tree", coords:[18.0126,-76.7567], count:1},
+    {name: "Papine", coords:[18.0200,-76.7500], count:1}
 ];
 
+var mediumPriorityCommunities = [
+    {name:"May Pen", coords:[17.9557,-77.2405], count:2},
+    {name:"Mandeville", coords:[18.0515,-77.5071], count:1}
+];
 
-// Loop through parishes and add markers
-highPriorityParishes.forEach(function(parish){
+var lowPriorityCommunities = [
+    {name:"Port Maria", coords:[18.3093,-76.8895], count:3},
+    {name:"Port Antonio", coords:[18.1765,-76.4500], count:2}
+];
 
-    L.marker(parish.coords,{icon:redIcon})
-    .addTo(map)
-    .bindPopup("<b>"+parish.name+"</b><br>High Priority Area");
+// Function to create markers with count displayed
+function addCountMarkerWithIcon(communities, color, priorityText, iconUrl){
+    communities.forEach(function(comm){
+        // 1️⃣ DivIcon marker first, slightly offset to the right (behind the pin)
+        var countMarkerIcon = L.divIcon({
+            html: '<div style="background:'+color+'; color:white; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-weight:bold;">'+comm.count+'</div>',
+            className:'',
+            iconSize:[30,30],
+            iconAnchor:[9,15], // shift anchor to left (9px ~ 30% of width) so the pin can sit in front
+            popupAnchor:[0,-15]
+        });
 
-});
-// Loop through medium priority parishes
-mediumPriorityParishes.forEach(function(parish){
+        L.marker([comm.coords[0], comm.coords[1]], {icon: countMarkerIcon}).addTo(map);
 
-    L.marker(parish.coords,{icon:orangeIcon})
-    .addTo(map)
-    .bindPopup("<b>"+parish.name+"</b><br>Medium Priority Area");
+        // 2️⃣ Standard Leaflet marker on top
+        var standardIcon = new L.Icon({
+            iconUrl: iconUrl,
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+            iconSize: [25,41],
+            iconAnchor: [12,41],
+            popupAnchor: [1,-34],
+            shadowSize: [41,41]
+        });
 
-});
-// Loop through low priority parishes
-lowPriorityParishes.forEach(function(parish){
-    L.marker(parish.coords, {icon: blueIcon})
-    .addTo(map)
-    .bindPopup("<b>"+parish.name+"</b><br>Low Priority Area");
-});
+        L.marker([comm.coords[0], comm.coords[1]], {icon: standardIcon})
+         .addTo(map)
+         .bindPopup("<b>"+comm.name+"</b><br>"+priorityText+" Area"+(comm.count>1?" (x"+comm.count+")":""));
+    });
+}
+
+// Usage
+addCountMarkerWithIcon(highPriorityCommunities, 'red', 'High Priority', 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png');
+addCountMarkerWithIcon(mediumPriorityCommunities, 'orange', 'Medium Priority', 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png');
+addCountMarkerWithIcon(lowPriorityCommunities, 'blue', 'Low Priority', 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png');
     
 </script>
 
