@@ -10,18 +10,24 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+<style>
+  #map { width: 100%; height: 500px; border-radius: 8px; margin-top: 20px; }
+  .pulse-animation { animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+  .drop-animation { animation: drop 0.4s ease-out; }
+  @keyframes drop { from{transform:translateY(-30px);opacity:0} to{transform:translateY(0);opacity:1} }
+</style>
 </head>
-<body>
 <body>
 
 <div class="container">
     <header class="header">
         <h1 id="titlesize">Disaster Response Dashboard</h1>
         <p id="description">
-            <strong>Disaster Relay</strong> is a live public dashboard that shows the current situation across communities following <strong>Hurricane Melissa</strong>. Each update on the dashboard comes from real calls and reports that have been converted into structured data. Communities are grouped by <b>priority level</b> so viewers can quickly see where help is most urgently needed. By clicking on a community, users can view reported needs such as <b>food, water, or shelter</b>, as well as whether <b>injuries have been reported</b>. This allows the public and responders to clearly understand which areas are most affected and what support those communities require.
+            <strong>Disaster Relay</strong> is a live public dashboard that shows the current situation across communities following <strong>Hurricane Melissa</strong>.
         </p>
         <p id="update-status">Last updated: <span id="time-display">Fetching...</span></p>
         <div id="map"></div>
@@ -42,7 +48,244 @@
         <div class="parish-grid" id="low-grid"></div>
     </section>
 </div>
+
 <script>
+// ========== FULL COORDINATE MAP FROM RELAY ==========
+const coordsMap = {
+  'kingston, kingston': [17.9714, -76.792],
+  'downtown kingston, kingston': [17.968, -76.7936],
+  'half way tree, kingston': [18.0106, -76.7836],
+  'new kingston, kingston': [18.0075, -76.7857],
+  'cross roads, kingston': [18.006, -76.784],
+  'vineyard town, kingston': [17.987, -76.771],
+  'jones town, kingston': [17.977, -76.778],
+  'trench town, kingston': [17.974, -76.796],
+  'tivoli gardens, kingston': [17.971, -76.797],
+  'denham town, kingston': [17.973, -76.795],
+  'rae town, kingston': [17.968, -76.785],
+  'rollington town, kingston': [17.979, -76.776],
+  'allman town, kingston': [17.973, -76.788],
+  'franklyn town, kingston': [17.981, -76.776],
+  'bournemouth gardens, kingston': [17.965, -76.773],
+  'half way tree, st. andrew': [18.0106, -76.7836],
+  'august town, st. andrew': [18.019, -76.742],
+  'papine, st. andrew': [18.021, -76.737],
+  'mona, st. andrew': [18.015, -76.746],
+  'liguanea, st. andrew': [18.013, -76.77],
+  'constant spring, st. andrew': [18.028, -76.783],
+  'stony hill, st. andrew': [18.062, -76.77],
+  'golden spring, st. andrew': [18.045, -76.738],
+  'hope pastures, st. andrew': [18.02, -76.763],
+  'barbican, st. andrew': [18.023, -76.774],
+  'havendale, st. andrew': [18.033, -76.791],
+  'red hills, st. andrew': [18.051, -76.801],
+  'norbrook, st. andrew': [18.029, -76.79],
+  'cherry gardens, st. andrew': [18.02, -76.788],
+  'irish town, st. andrew': [18.074, -76.696],
+  'gordon town, st. andrew': [18.048, -76.708],
+  'bull bay, st. andrew': [17.956, -76.691],
+  'harbour view, st. andrew': [17.962, -76.74],
+  'duhaney park, st. andrew': [18.01, -76.811],
+  'waterhouse, st. andrew': [18.005, -76.806],
+  'riverton city, st. andrew': [17.985, -76.821],
+  'maverly, st. andrew': [17.992, -76.758],
+  'spanish town, st. catherine': [17.9908, -76.955],
+  'old harbour, st. catherine': [17.941, -77.108],
+  'old harbour bay, st. catherine': [17.893, -77.106],
+  'linstead, st. catherine': [18.133, -77.031],
+  'bog walk, st. catherine': [18.1, -77.006],
+  'ewarton, st. catherine': [18.178, -77.083],
+  'willodene, st. catherine': [17.97, -77.05],
+  'angels, st. catherine': [17.985, -76.94],
+  'portmore, st. catherine': [17.95, -76.87],
+  'gregory park, st. catherine': [17.96, -76.88],
+  'bridgeport, st. catherine': [17.935, -76.855],
+  'waterford, st. catherine': [17.942, -76.864],
+  'edgewater, st. catherine': [17.94, -76.858],
+  'hellshire, st. catherine': [17.89, -76.87],
+  'central village, st. catherine': [17.97, -76.91],
+  'content garden, st. catherine': [17.935, -77.02],
+  'kitson town, st. catherine': [18.128, -77.05],
+  'treadways, st. catherine': [17.96, -77.07],
+  'point hill, st. catherine': [18.16, -77.08],
+  'guy\'s hill, st. catherine': [18.21, -77.01],
+  'above rocks, st. catherine': [18.082, -76.845],
+  'st. johns, st. catherine': [17.975, -76.97],
+  'de la vega city, st. catherine': [17.95, -76.895],
+  'cumberland, st. catherine': [17.945, -77.06],
+  'bybrook, st. catherine': [17.935, -77.04],
+  'may pen, clarendon': [17.9708, -77.243],
+  'lionel town, clarendon': [17.857, -77.26],
+  'chapelton, clarendon': [18.084, -77.268],
+  'frankfield, clarendon': [18.102, -77.29],
+  'hayes, clarendon': [17.935, -77.2],
+  'kellits, clarendon': [18.14, -77.26],
+  'four paths, clarendon': [17.96, -77.278],
+  'milk river, clarendon': [17.87, -77.35],
+  'race course, clarendon': [17.91, -77.19],
+  'spaldings, clarendon': [18.169, -77.32],
+  'toll gate, clarendon': [18.06, -77.27],
+  'rock river, clarendon': [18.09, -77.22],
+  'osbourne store, clarendon': [18.07, -77.24],
+  'vere, clarendon': [17.88, -77.24],
+  'porus, clarendon': [18.034, -77.41],
+  'mandeville, manchester': [18.0442, -77.506],
+  'christiana, manchester': [18.2, -77.49],
+  'porus, manchester': [18.034, -77.41],
+  'williamsfield, manchester': [18.065, -77.52],
+  'mile gully, manchester': [18.125, -77.51],
+  'newport, manchester': [18.17, -77.49],
+  'spaldings, manchester': [18.169, -77.32],
+  'knockpatrick, manchester': [18.06, -77.55],
+  'comfort hall, manchester': [18.1, -77.48],
+  'pike, manchester': [18.08, -77.45],
+  'walderston, manchester': [18.19, -77.43],
+  'grove place, manchester': [18.03, -77.48],
+  'plowden, manchester': [18.09, -77.53],
+  'hatfield, manchester': [18.035, -77.47],
+  'cross keys, manchester': [18.07, -77.58],
+  'black river, st. elizabeth': [18.0074, -77.849],
+  'santa cruz, st. elizabeth': [18.06, -77.71],
+  'junction, st. elizabeth': [18.048, -77.775],
+  'malvern, st. elizabeth': [18.042, -77.76],
+  'lacovia, st. elizabeth': [18.078, -77.78],
+  'balaclava, st. elizabeth': [18.12, -77.64],
+  'nain, st. elizabeth': [17.975, -77.72],
+  'treasure beach, st. elizabeth': [17.87, -77.79],
+  'middle quarters, st. elizabeth': [18.04, -77.86],
+  'accompong, st. elizabeth': [18.135, -77.75],
+  'pedro plains, st. elizabeth': [17.92, -77.71],
+  'myersville, st. elizabeth': [18.01, -77.74],
+  'mountainside, st. elizabeth': [18.05, -77.7],
+  'bull savannah, st. elizabeth': [17.94, -77.75],
+  'lovers leap, st. elizabeth': [17.86, -77.735],
+  'savanna-la-mar, westmoreland': [18.216, -78.133],
+  'negril, westmoreland': [18.269, -78.348],
+  'grange hill, westmoreland': [18.31, -78.18],
+  'whitehouse, westmoreland': [18.06, -77.92],
+  'bluefields, westmoreland': [18.17, -78.04],
+  'bethel town, westmoreland': [18.26, -78.1],
+  'petersfield, westmoreland': [18.195, -78.055],
+  'darliston, westmoreland': [18.29, -78.13],
+  'little london, westmoreland': [18.27, -78.23],
+  'frome, westmoreland': [18.25, -78.09],
+  'sheffield, westmoreland': [18.31, -78.21],
+  'new hope, westmoreland': [18.22, -78.2],
+  'ferris cross, westmoreland': [18.24, -78.16],
+  'new market, westmoreland': [18.22, -77.99],
+  'llandilo, westmoreland': [18.24, -78.08],
+  'lucea, hanover': [18.451, -78.173],
+  'green island, hanover': [18.46, -78.28],
+  'hopewell, hanover': [18.41, -78.03],
+  'sandy bay, hanover': [18.43, -78.12],
+  'ruseas, hanover': [18.45, -78.17],
+  'ken jones, hanover': [18.42, -78.15],
+  'chester castle, hanover': [18.4, -78.2],
+  'cascade, hanover': [18.38, -78.22],
+  'askenish, hanover': [18.41, -78.08],
+  'jericho, hanover': [18.39, -78.11],
+  'montego bay, st. james': [18.4712, -77.9186],
+  'cambridge, st. james': [18.33, -77.91],
+  'anchovy, st. james': [18.4, -77.88],
+  'montpelier, st. james': [18.38, -77.92],
+  'reading, st. james': [18.44, -77.93],
+  'rose hall, st. james': [18.5, -77.86],
+  'ironshore, st. james': [18.495, -77.89],
+  'flankers, st. james': [18.475, -77.905],
+  'granville, st. james': [18.47, -77.93],
+  'salt spring, st. james': [18.45, -77.94],
+  'bogue, st. james': [18.485, -77.91],
+  'barrett town, st. james': [18.43, -77.9],
+  'adelphi, st. james': [18.36, -77.91],
+  'catadupa, st. james': [18.37, -77.94],
+  'lilliput, st. james': [18.51, -77.85],
+  'falmouth, trelawny': [18.494, -77.656],
+  'clark\'s town, trelawny': [18.37, -77.56],
+  'duncans, trelawny': [18.47, -77.55],
+  'albert town, trelawny': [18.28, -77.51],
+  'wakefield, trelawny': [18.35, -77.62],
+  'stewart town, trelawny': [18.46, -77.53],
+  'rio bueno, trelawny': [18.48, -77.5],
+  'martha brae, trelawny': [18.47, -77.63],
+  'duanvale, trelawny': [18.34, -77.54],
+  'ulster spring, trelawny': [18.33, -77.52],
+  'wait-a-bit, trelawny': [18.31, -77.55],
+  'sherwood content, trelawny': [18.3, -77.58],
+  'bounty hall, trelawny': [18.48, -77.61],
+  'troy, trelawny': [18.27, -77.53],
+  'st. ann\'s bay, st. ann': [18.437, -77.201],
+  'ocho rios, st. ann': [18.4074, -77.105],
+  'brown\'s town, st. ann': [18.399, -77.27],
+  'discovery bay, st. ann': [18.47, -77.4],
+  'runaway bay, st. ann': [18.46, -77.33],
+  'claremont, st. ann': [18.34, -77.18],
+  'moneague, st. ann': [18.275, -77.105],
+  'steer town, st. ann': [18.4, -77.22],
+  'priory, st. ann': [18.42, -77.16],
+  'bamboo, st. ann': [18.4, -77.13],
+  'exchange, st. ann': [18.36, -77.22],
+  'epworth, st. ann': [18.34, -77.25],
+  'bensonton, st. ann': [18.32, -77.2],
+  'chalky hill, st. ann': [18.37, -77.35],
+  'alexandria, st. ann': [18.29, -77.27],
+  'port maria, st. mary': [18.369, -76.891],
+  'annotto bay, st. mary': [18.28, -76.77],
+  'highgate, st. mary': [18.33, -76.91],
+  'gayle, st. mary': [18.37, -76.87],
+  'oracabessa, st. mary': [18.405, -76.95],
+  'richmond, st. mary': [18.35, -76.81],
+  'castleton, st. mary': [18.19, -76.85],
+  'guy\'s hill, st. mary': [18.21, -77.01],
+  'islington, st. mary': [18.32, -76.85],
+  'boscobel, st. mary': [18.41, -76.98],
+  'hampstead, st. mary': [18.31, -76.79],
+  'trinity, st. mary': [18.35, -76.83],
+  'robins bay, st. mary': [18.39, -76.82],
+  'whitehall, st. mary': [18.36, -76.93],
+  'port antonio, portland': [18.1812, -76.451],
+  'buff bay, portland': [18.236, -76.657],
+  'hope bay, portland': [18.22, -76.58],
+  'manchioneal, portland': [18.05, -76.28],
+  'long bay, portland': [18.035, -76.22],
+  'boston bay, portland': [18.14, -76.37],
+  'san san, portland': [18.19, -76.42],
+  'moore town, portland': [18.12, -76.41],
+  'fairy hill, portland': [18.16, -76.38],
+  'fellowship, portland': [18.17, -76.5],
+  'windsor, portland': [18.18, -76.55],
+  'swift river, portland': [18.11, -76.35],
+  'orange bay, portland': [18.15, -76.36],
+  'rio grande valley, portland': [18.13, -76.45],
+  'morant bay, st. thomas': [17.881, -76.409],
+  'yallahs, st. thomas': [17.875, -76.547],
+  'bath, st. thomas': [17.975, -76.368],
+  'port morant, st. thomas': [17.89, -76.331],
+  'seaforth, st. thomas': [17.94, -76.42],
+  'golden grove, st. thomas': [17.92, -76.39],
+  'cedar valley, st. thomas': [17.93, -76.47],
+  'trinityville, st. thomas': [17.96, -76.4],
+  'lyssons, st. thomas': [17.89, -76.45],
+  'prospect, st. thomas': [17.88, -76.48],
+  'white horses, st. thomas': [17.87, -76.5],
+  'airy castle, st. thomas': [17.91, -76.51],
+  'easington, st. thomas': [17.94, -76.29],
+  'hector\'s river, st. thomas': [17.98, -76.27],
+  'kingston': [17.9714, -76.792],
+  'st. andrew': [18.0179, -76.7494],
+  'st. catherine': [17.991, -76.953],
+  'clarendon': [17.9557, -77.24],
+  'manchester': [18.0442, -77.506],
+  'st. elizabeth': [18, -77.75],
+  'westmoreland': [18.23, -78.15],
+  'hanover': [18.41, -78.13],
+  'st. james': [18.47, -77.92],
+  'trelawny': [18.35, -77.61],
+  'st. ann': [18.43, -77.2],
+  'st. mary': [18.37, -76.92],
+  'portland': [18.18, -76.45],
+  'st. thomas': [17.93, -76.35],
+};
+
 // ====== Map Setup ======
 var jamaicaBounds = [[17.6, -78.6],[18.6, -75.9]];
 var map = L.map('map',{
@@ -59,80 +302,73 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
     attribution:'&copy; OpenStreetMap contributors'
 }).addTo(map);
 
-// Use a LayerGroup to manage markers so we can clear them during refresh
 var markerLayer = L.layerGroup().addTo(map);
 
-// ====== Function to create markers with DROP ANIMATION ======
-function addCountMarkerWithIcon(communities, color, priorityText, iconUrl){
-    communities.forEach(function(comm){
-        // Count bubble marker
-        var countMarkerIcon = L.divIcon({
-            html: '<div style="background:'+color+'; color:white; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-weight:bold; border:2px solid white;" class="pulse-animation">'+comm.count+'</div>',
-            className:'',
-            iconSize:[30,30],
-            iconAnchor:[15,15],
-            popupAnchor:[0,-15]
-        });
-
-        var countMarker = L.marker([comm.coords[0], comm.coords[1]], {icon: countMarkerIcon}).addTo(markerLayer);
-        
-        countMarker.on('add', function() {
-            setTimeout(() => {
-                if (countMarker.getElement()) {
-                    countMarker.getElement().classList.add('drop-animation');
-                }
-            }, 10);
-        });
-
-        // Standard pin marker
-        var standardIcon = new L.Icon({
-            iconUrl: iconUrl,
-            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
-            iconSize: [25,41],
-            iconAnchor: [12,41],
-            popupAnchor: [1,-34],
-            shadowSize: [41,41]
-        });
-
-        var marker = L.marker([comm.coords[0], comm.coords[1]], {icon: standardIcon})
-         .addTo(markerLayer)
-         .bindPopup("<b>"+comm.name+"</b><br>"+priorityText+(comm.count>1?" (x"+comm.count+")":""));
-        
-        marker.on('add', function() {
-            setTimeout(() => {
-                if (marker.getElement()) {
-                    marker.getElement().classList.add('drop-animation');
-                }
-            }, 10);
-        });
-    });
+// Coordinate fetching system from relay
+function getCoords(parish, community) {
+  const key = (community + ', ' + parish).toLowerCase().trim();
+  if (coordsMap[key]) return coordsMap[key];
+  const communityLower = community.toLowerCase().trim();
+  for (const [k, v] of Object.entries(coordsMap)) {
+    if (k.startsWith(communityLower + ',') || k === communityLower) return v;
+  }
+  const parishLower = parish.toLowerCase().trim();
+  if (coordsMap[parishLower]) {
+    const offset = () => (Math.random() - 0.5) * 0.03;
+    return [coordsMap[parishLower][0] + offset(), coordsMap[parishLower][1] + offset()];
+  }
+  return [18.1096, -77.2975];
 }
 
-// ====== Create parish cards ======
+function addCountMarkerWithIcon(coords, count, priority, community) {
+  const colors = { high: 'red', medium: 'orange', low: 'blue' };
+  const iconUrls = {
+    high: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+    medium: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png',
+    low: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png'
+  };
+
+  const countIcon = L.divIcon({
+    html: `<div style="background:${colors[priority]}; color:white; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-weight:bold; border:2px solid white;" class="pulse-animation">${count}</div>`,
+    className: '',
+    iconSize: [30, 30],
+    iconAnchor: [15, 15],
+    popupAnchor: [0, -15],
+  });
+
+  const stdIcon = new L.Icon({
+    iconUrl: iconUrls[priority],
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+  });
+
+  L.marker(coords, { icon: countIcon }).addTo(markerLayer);
+  L.marker(coords, { icon: stdIcon })
+    .addTo(markerLayer)
+    .bindPopup(`<b>${community}</b><br>${priority.charAt(0).toUpperCase() + priority.slice(1)} Priority ${count > 1 ? '(x' + count + ')' : ''}`);
+}
+
+// UI Functions
 function createParishCard(parishName, communities) {
     const card = document.createElement('div');
     card.className = 'parish-card';
-    
     const h3 = document.createElement('h3');
     h3.textContent = parishName;
     card.appendChild(h3);
-
     communities.sort((a,b)=>a.community.localeCompare(b.community));
-
     communities.forEach(comm=>{
         const details = document.createElement('details');
         details.className = 'community';
-
         const summary = document.createElement('summary');
         summary.textContent = comm.count>1 ? `${comm.community} x${comm.count}` : comm.community;
         details.appendChild(summary);
-
         const info = document.createElement('div');
         info.className = 'community-info';
-
         const needsP = document.createElement('p');
         needsP.className = 'needs';
-
         const needIcons = [];
         comm.needs.forEach(need=>{
             const n = need.toLowerCase();
@@ -143,238 +379,91 @@ function createParishCard(parishName, communities) {
         });
         needsP.innerHTML = needIcons.join(' | ') || 'No specific needs';
         info.appendChild(needsP);
-
         const injuryP = document.createElement('p');
         const hasMedical = comm.needs.some(n=>n.toLowerCase().includes('medical'));
         injuryP.className = hasMedical ? 'injured' : 'none';
         injuryP.innerHTML = hasMedical ? '⚠ Injuries Reported' : '✔ No Injuries';
         info.appendChild(injuryP);
-
         details.appendChild(info);
         card.appendChild(details);
     });
-
     return card;
 }
 
-// ====== Load and Process CSV Data ======
-const csvUrl = 'https://docs.google.com/spreadsheets/d/13WUAN1zNK3fH_wX32QLb44EnQNiA5Z0_jwTtYA_2XHA/export?format=csv&gid=0';
+// Data Processing
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/13WUAN1zNK3fH_wX32QLb44EnQNiA5Z0_jwTtYA_2XHA/export?format=csv&gid=0';
 
-function loadDashboardData() {
-    // Cache busting timestamp
-    const fetchUrl = `${csvUrl}&t=${new Date().getTime()}`;
-
-    fetch(fetchUrl)
-    .then(response => response.text())
-    .then(csvText => {
+async function loadDashboardData() {
+    try {
+        const res = await fetch(`${CSV_URL}&t=${Date.now()}`);
+        const csvText = await res.text();
         const lines = csvText.split(/\r?\n/);
         const headers = lines[0].split(',').map(h => h.trim().replace(/^\uFEFF/, ''));
-        const data = [];
-        
+        const communities = {};
+        const seenIds = new Set();
+
         for(let i = 1; i < lines.length; i++) {
             if(!lines[i].trim()) continue;
-            const values = lines[i].split(',').map(v => v.trim());
+            const vals = lines[i].split(',').map(v => v.trim());
             const row = {};
-            headers.forEach((h, idx) => { row[h] = values[idx] || ''; });
-            data.push(row);
-        }
-        
-        const communities = {};
+            headers.forEach((h, idx) => { row[h] = vals[idx] || ''; });
+            
+            const callId = row['CallID'] || row['callid'] || row['Call ID'] || '';
+            if (!callId || seenIds.has(callId)) continue;
+            seenIds.add(callId);
 
-        data.forEach(row => {
             const parish = row.Parish?.trim();
             const community = row.Community?.trim();
-            const rawPriority = (row.Severity || row.Priority || "").toLowerCase().trim();
-            const rawNeeds = row.Needs?.trim() || '';
-            
-            if(!parish || !community) return;
+            if(!parish || !community) continue;
 
+            const rawP = (row.Severity || row.Priority || "").toLowerCase().trim();
             let priority = 'low';
-            if (rawPriority.includes('urgent') || rawPriority.includes('critical') || rawPriority.includes('high')) {
-                priority = 'high';
-            } else if (rawPriority.includes('moderate') || rawPriority.includes('medium') || rawPriority.includes('med')) {
-                priority = 'medium';
-            }
+            if (rawP.includes('urgent') || rawP.includes('critical') || rawP.includes('high')) priority = 'high';
+            else if (rawP.includes('moderate') || rawP.includes('medium') || rawP.includes('med')) priority = 'medium';
 
-            let needs = [];
-            if (rawNeeds) {
-                needs = rawNeeds.replace(/[\[\]"]/g, '').split(',').map(n => n.trim()).filter(n => n.length > 0);
-            }
+            const rawNeeds = row.Needs?.trim() || '';
+            let needs = rawNeeds ? rawNeeds.replace(/[\[\]"]/g, '').split(',').map(n => n.trim()).filter(n => n.length > 0) : [];
 
             const key = `${parish}|${community}`;
             if(!communities[key]) {
                 communities[key] = { parish, community, priority, needs, count: 1 };
             } else {
-                const prioRank = {high:3, medium:2, low:1};
-                if(prioRank[priority] > prioRank[communities[key].priority]) {
-                    communities[key].priority = priority;
-                }
-                needs.forEach(n => {
-                    if(!communities[key].needs.includes(n)) communities[key].needs.push(n);
-                });
+                const rank = {high:3, medium:2, low:1};
+                if(rank[priority] > rank[communities[key].priority]) communities[key].priority = priority;
+                needs.forEach(n => { if(!communities[key].needs.includes(n)) communities[key].needs.push(n); });
                 communities[key].count++;
             }
-        });
+        }
 
-        const commArray = Object.values(communities);
+        markerLayer.clearLayers();
         const grouped = { high: {}, medium: {}, low: {} };
 
-        commArray.forEach(item => {
-            if (!grouped[item.priority][item.parish]) grouped[item.priority][item.parish] = [];
-            grouped[item.priority][item.parish].push(item);
+        Object.values(communities).forEach(c => {
+            if (!grouped[c.priority][c.parish]) grouped[c.priority][c.parish] = [];
+            grouped[c.priority][c.parish].push(c);
+            
+            // Add marker using the smart coord system
+            const coords = getCoords(c.parish, c.community);
+            addCountMarkerWithIcon(coords, c.count, c.priority, c.community);
         });
 
-        // Clear existing markers before redraw
-        markerLayer.clearLayers();
-
-        // Update UI Grids
         ['high', 'medium', 'low'].forEach(prio => {
             const grid = document.querySelector(`.priority.${prio} .parish-grid`);
             if (grid) {
                 grid.innerHTML = '';
-                const parishes = Object.keys(grouped[prio]).sort();
-                parishes.forEach(parish => {
+                Object.keys(grouped[prio]).sort().forEach(parish => {
                     grid.appendChild(createParishCard(parish, grouped[prio][parish]));
                 });
             }
         });
 
-        // ====== Map markers ======
-        const colors = {high:'red', medium:'orange', low:'blue'};
-        const icons = {
-            high:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
-            medium:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png',
-            low:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png'
-        };
-
-        const coordsMap = {
-            
-            'Kingston': [17.99702, -76.79358],
-            'Portmore': [17.97102, -76.88691],
-            'Montego Bay': [18.47116, -77.91883],
-            'Spanish Town': [17.99107, -76.95742],
-            
-            'May Pen': [17.96454, -77.24515],
-            'Mandeville': [18.04168, -77.50714],
-            'Old Harbour': [17.94144, -77.10898],
-            'Savanna-la-Mar': [18.21895, -78.1332],
-            'Ocho Rios': [18.4167, -77.1167],
-            'Linstead': [18.13683, -77.03171],
-            'Port Antonio': [18.1761, -76.3874],
-            "St. Ann's Bay": [18.4361, -77.2214],
-            'Morant Bay': [17.8817, -76.4111],
-            'Yallahs': [17.8718, -76.5624],
-            'Hayes': [17.8764, -77.2405],
-            'Santa Cruz': [18.05336, -77.69836],
-            'Half Way Tree': [18.01248, -76.79928],
-            'New Kingston': [18.00747, -76.78319],
-            
-            'Above Rocks': [18.0981, -76.8731],
-            'Accompong': [18.2167, -77.75],
-            'Aenon Town': [18.2053, -77.3931],
-            'Albert Town': [18.2914, -77.5442],
-            'Alexandria': [18.30768, -77.35335],
-            'Alligator Pond': [17.8711, -77.5686],
-            'Alston': [18.1739, -77.4328],
-            'Anchovy': [18.4103, -77.9358],
-            'Annotto Bay': [18.2711, -76.7736],
-            'Balaclava': [18.1733, -77.6478],
-            'Bamboo': [18.3858, -77.2644],
-            'Bath': [17.9482, -76.34916],
-            'Bethel Town': [18.2958, -77.9556],
-            'Black River': [18.0275, -77.8589],
-            'Bluefields': [18.16602, -78.02702],
-            'Bog Walk': [18.1022, -77.0219],
-            'Browns Town': [18.3911, -77.3592],
-            'Buff Bay': [18.2325, -76.6672],
-            'Cambridge': [18.31326, -77.90252],
-            'Cascade': [18.4019, -78.1086],
-            'Cave Valley': [18.2694, -77.3703],
-            'Chapelton': [18.0833, -77.2667],
-            'Charles Town': [18.1806, -76.6236],
-            'Christiana': [18.1708, -77.4944],
-            'Clarendon Park': [17.9083, -77.2397],
-            "Clark's Town": [18.4181, -77.5411],
-            'Darliston': [18.2383, -77.9767],
-            'Discovery Bay': [18.4625, -77.4097],
-            'Easington': [17.9256, -76.6003],
-            'Ewarton': [18.1833, -77.0833],
-            'Falmouth': [18.4939, -77.6556],
-            'Flagstaff': [18.2456, -77.6294],
-            'Frankfield': [18.1525, -77.3581],
-            'Gayle': [18.3256, -77.0097],
-            'Grange Hill': [18.3425, -78.1972],
-            'Green Island': [18.3847, -78.2736],
-            "Guy's Hill": [18.2736, -77.0236],
-            'Highgate': [18.3108, -76.8642],
-            'Hope Bay': [18.1958, -76.5642],
-            'Islington': [18.30922, -76.85482],
-            'Junction': [17.9017, -77.5894],
-            'Lacovia': [18.0694, -77.7542],
-            'Lime Hall': [18.3492, -77.2669],
-            'Lluidas Vale': [18.1264, -77.1408],
-            'Lucea': [18.4506, -78.1731],
-            'Maggotty': [18.1597, -77.7797],
-            'Malvern': [17.9706, -77.705],
-            'Mavis Bank': [18.0314, -76.6622],
-            'May Day': [18.0383, -77.3656],
-            'Mile Gully': [18.1253, -77.4419],
-            'Moore Town': [18.0892, -76.4278],
-            'Nain': [17.96526, -77.60528],
-            'Negril': [18.2786, -78.3506],
-            'New Market': [18.0572, -77.9078],
-            'Nine Miles': [18.3456, -77.2508],
-            'Nonpareil': [17.8942, -77.3242],
-            'Old Harbour Bay': [17.9078, -77.0928],
-            'Oracabessa': [18.4033, -76.9453],
-            'Osbourne Store': [17.9647, -77.3342],
-            'Point Hill': [18.0911, -77.1072],
-            'Porus': [18.0356, -77.4181],
-            'Port Maria': [18.3689, -76.8914],
-            'Port Royal': [17.9367, -76.8419],
-            'Ramsgate': [18.1194, -77.4656],
-            'Richmond': [18.25478, -76.88799],
-            'Riversdale': [18.0983, -76.7961],
-            'Rocky Point': [17.7789, -77.2503],
-            'Runaway Bay': [18.4631, -77.3367],
-            'Saint Ann\'s Bay': [18.4361, -77.2214],
-            'San San': [18.1667, -76.3667],
-            'Sandside': [18.1853, -78.0169],
-            'Seaford Town': [18.2597, -77.9233],
-            'Siloah': [18.1622, -77.7147],
-            'Southfield': [17.8889, -77.6756],
-            'Stony Hill': [18.0761, -76.7939],
-            'Trinityville': [17.9639, -76.4758],
-            'Ulster Spring': [18.3192, -77.5206],
-            'Wakefield': [18.41211, -77.72183],
-            'Walderston': [18.0036, -77.4442],
-            'White House': [18.0919, -77.8344],
-            'Williamsfield': [18.07, -77.4694],
-            'Woodside': [18.2428, -76.8761]
-        };
-
-        const baseCoords = [18.1096, -77.2975];
-        commArray.forEach((c, i) => {
-            const coords = coordsMap[c.community] || [baseCoords[0] + 0.01*i, baseCoords[1] + 0.01*i];
-            addCountMarkerWithIcon([{
-                name: c.community,
-                coords: coords,
-                count: c.count
-            }], colors[c.priority], c.priority.charAt(0).toUpperCase() + c.priority.slice(1) + ' Priority', icons[c.priority]);
-        });
-
         document.getElementById('time-display').innerText = new Date().toLocaleTimeString();
-    })
-    .catch(err => {
-        console.error('Error loading CSV:', err);
-        document.getElementById('time-display').innerText = 'Error fetching data';
-    });
+    } catch (err) {
+        console.error('Fetch error:', err);
+    }
 }
 
-// Initial Load
 loadDashboardData();
-
-// Refresh every 10 seconds
 setInterval(loadDashboardData, 10000);
 </script>
 </body>
