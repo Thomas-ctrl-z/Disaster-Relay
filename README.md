@@ -1,4 +1,5 @@
 <h1 align="center"> Disaster Relay</h1>
+<img src="Images/poster.png" align="center">
 
 
 ## Overview
@@ -46,16 +47,17 @@ When a person calls the emergency number, an AI responder answers and asks struc
 ## Demo
 [DisasterRelay-Website](thomas-ctrl-z.github.io/Disaster-Relay/)
 
+
+<div align="center">
 <table>
     <tr>
-        <td align = "center">
-        <img src="Images/demo pg1.png" width="270">
+        <td align ="center">
+        <img src="Images/demo pg1.png" width="230">
         </td>
-        <td align = "center">
-        <img src="Images/high priority.png" wdith="270">
+        <td align ="center">
+        <img src="Images/high priority.png" wdith="230">
         </td>
     </tr>
 </table>
-
-
+</div>
 
