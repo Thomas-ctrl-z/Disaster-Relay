@@ -15,6 +15,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 
 <body>
@@ -23,7 +26,6 @@
 <div class="container">
 
 <!-- ================= HEADER SECTION ================= -->
-
 <header class="header">
 <!-- Main title of dashboard -->
 <h1 id="titlesize">Disaster Response Dashboard</h1>
@@ -31,6 +33,7 @@
 <!-- Short description -->
 <p id="description"><strong>Disaster Relay</strong> is a live public dashboard that shows the current situation across communities following <strong>Hurricane Melissa</strong>. Each update on the dashboard comes from real calls and reports that have been converted into structured data. Communities are grouped by <b>priority level</b> so viewers can quickly see where help is most urgently needed. By clicking on a community, users can view reported needs such as <b>food, water, or shelter</b>, as well as whether <b>injuries have been reported</b>. This allows the public and responders to clearly understand which areas are most affected and what support those communities require.
 </p>
+<div id = "map"></div>
 </header>
 
 
@@ -566,7 +569,6 @@
 </section>
 
 
-
 <!-- ================= MEDIUM PRIORITY SECTION ================= -->
 
 <section class="priority medium">
@@ -786,13 +788,90 @@
 
 </details>
 
-
 </div>
 
 </div>
 </section>
 
 </div>
+<script>
+ 
+// Create the map centered on Jamaica
+var jamaicaBounds = [
+    [17.6, -78.6], // Southwest corner
+    [18.6, -75.9]  // Northeast corner
+];
+
+var jamaicaBounds = [[17.6, -78.6],[18.6, -75.9]];
+var map = L.map('map',{
+    center: [18.1096,-77.2975],
+    zoom: 10,
+    minZoom: 9.5,
+    maxZoom: 18,
+    maxBounds: jamaicaBounds,
+    maxBoundsViscosity: 1.0,
+    zoomControl:true
+});
+
+// Map tiles
+L.tileLayer('https://api.maptiler.com/maps/base-v4/{z}/{x}/{y}.png?key=4mYYMV1vuZjrQdi0uSEu',{
+    attribution:'&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+// Data for communities
+var highPriorityCommunities = [
+    {name: "Trench Town", coords:[18.4762,-77.8939], count:3},
+    {name: "Denham Town", coords:[18.4762,-77.8830], count:2},
+    {name: "Half Way Tree", coords:[18.0126,-76.7567], count:1},
+    {name: "Papine", coords:[18.0200,-76.7500], count:1}
+];
+
+var mediumPriorityCommunities = [
+    {name:"May Pen", coords:[17.9557,-77.2405], count:2},
+    {name:"Mandeville", coords:[18.0515,-77.5071], count:1}
+];
+
+var lowPriorityCommunities = [
+    {name:"Port Maria", coords:[18.3093,-76.8895], count:3},
+    {name:"Port Antonio", coords:[18.1765,-76.4500], count:2}
+];
+
+// Function to create markers with count displayed
+function addCountMarkerWithIcon(communities, color, priorityText, iconUrl){
+    communities.forEach(function(comm){
+        // 1️⃣ DivIcon marker first, slightly offset to the right (behind the pin)
+        var countMarkerIcon = L.divIcon({
+            html: '<div style="background:'+color+'; color:white; border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; font-weight:bold;">'+comm.count+'</div>',
+            className:'',
+            iconSize:[30,30],
+            iconAnchor:[9,15], // shift anchor to left (9px ~ 30% of width) so the pin can sit in front
+            popupAnchor:[0,-15]
+        });
+
+        L.marker([comm.coords[0], comm.coords[1]], {icon: countMarkerIcon}).addTo(map);
+
+        // 2️⃣ Standard Leaflet marker on top
+        var standardIcon = new L.Icon({
+            iconUrl: iconUrl,
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+            iconSize: [25,41],
+            iconAnchor: [12,41],
+            popupAnchor: [1,-34],
+            shadowSize: [41,41]
+        });
+
+        L.marker([comm.coords[0], comm.coords[1]], {icon: standardIcon})
+         .addTo(map)
+         .bindPopup("<b>"+comm.name+"</b><br>"+priorityText+" Area"+(comm.count>1?" (x"+comm.count+")":""));
+    });
+}
+
+// Usage
+addCountMarkerWithIcon(highPriorityCommunities, 'red', 'High Priority', 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png');
+addCountMarkerWithIcon(mediumPriorityCommunities, 'orange', 'Medium Priority', 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-gold.png');
+addCountMarkerWithIcon(lowPriorityCommunities, 'blue', 'Low Priority', 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png');
+    
+</script>
 
 </body>
 </html>
